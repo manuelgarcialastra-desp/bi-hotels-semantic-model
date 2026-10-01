@@ -1,0 +1,101 @@
+metric_contract:
+  metric_name: adversity_rate
+  display_name: Adversidad
+  status: production_evolving
+  vertical: hotels
+
+ownership:
+  business_owner: Revenue Innovation
+  technical_owner: Revenue Innovation
+
+grain:
+  business_grain:
+    - hotel_id_despegar
+    - dominio
+    - ap
+    - los
+
+  technical_key:
+    field: pricepoint_id
+    definition: reporte + hotel_id_despegar + dominio + ap + los + proveedor_tarifa
+
+source_of_truth:
+  current_table: lake.bi_rev_adversas_hoteles_pon
+  status: active_to_be_deprecated
+  future_state: relational_model
+
+official_metric:
+  primary_consumer: Revenue
+  bml_field: finalbml
+  formula: >
+    SUM(CASE WHEN finalbml = 'LOSE' THEN ponderador END) / SUM(ponderador)
+
+operational_views:
+  sourcing_travel_partners:
+    bml_field: basebml
+    usage: operational_management_and_hotel_negotiation
+
+  revenue:
+    bml_field: finalbml
+    usage: official_competitiveness_tracking
+
+mandatory_filters:
+  disponibilidad: Ambos
+  dia_semana_reporte: Tuesday
+  nombre_reporte: Booking Genius L1
+  pp_is_okr: 1
+
+measurement_scope:
+  official_benchmark:
+    competitor: Booking
+    context: Genius 1
+    feed: Revenue
+    benchmark_day: Tuesday
+
+measurement_frequency:
+  daily:
+    - Booking Public
+    - Booking Genius 1
+    - PriceTravel
+
+  tuesday_only:
+    - Booking Genius 2
+    - Booking Genius 3
+
+  monday_only:
+    - Remaining competitors
+
+  complementary_feeds:
+    - TTPP Sundays
+    - TTPP Tuesdays
+
+sla:
+  expected_availability_time: "09:00"
+  timezone: America/Argentina/Buenos_Aires
+  frequency: weekly_official_tuesday
+
+critical_fields:
+  - pricepoint_id
+  - finalbml
+  - ponderador
+  - hotel_id_despegar
+  - nombre_reporte
+  - fk_hsm
+
+known_dependencies:
+  external_vendor:
+    - RateGain
+
+  internal_systems:
+    - Data batch processing
+    - Sourcing BI accommodation portfolio table
+
+breaking_changes:
+  - Change in ponderador logic
+  - Change in official feed
+  - Change in OKR eligibility logic
+  - Change in official competitor or context
+  - Change in BML field used for official metric
+  - Change in mandatory filters
+  - Migration to relational model
+  - Change in accommodation portfolio source

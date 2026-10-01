@@ -1,0 +1,200 @@
+Table,Column,Type,Comment
+lake.bi_rev_adversity_hotels_s_roompack,pricepoint_id,varchar,"Representa una combinación específica de:
+nombre_reporte, dominio,fecha_crawleo,hotel_id,los,ap,provider"
+lake.bi_rev_adversity_hotels_s_roompack,payment_type_despegar,varchar,si es prepaid o paid at destination
+lake.bi_rev_adversity_hotels_s_roompack,payment_type_competitor,varchar,si es prepaid o paid at destination
+lake.bi_rev_adversity_hotels_s_roompack,cancellation_policy_despegar_pp,varchar,"politica de cancelacion para payment_type_despegar = prepaid (pp). Puede tomar los valores fully_refundable
+non_refundable
+partially_refundable
+non_refundable
+partially_refundable"
+lake.bi_rev_adversity_hotels_s_roompack,cancellation_policy_despegar_pad,varchar,"politica de cancelacion para payment_type_despegar = paid at destinatino (pad). Puede tomar los valores fully_refundable
+non_refundable
+partially_refundable
+non_refundable
+partially_refundable"
+lake.bi_rev_adversity_hotels_s_roompack,cancellation_policy_competitor,varchar,"politica de cancelacion parael competidor (unico). Puede tomar los valores fully_refundable
+non_refundable
+partially_refundable
+non_refundable
+partially_refundable"
+lake.bi_rev_adversity_hotels_s_roompack,roomtype_despegar_pp,varchar,Tipo de habitación / nombre de habitación para pp
+lake.bi_rev_adversity_hotels_s_roompack,roomtype_despegar_pad,varchar,Tipo de habitación / nombre de habitación para pad
+lake.bi_rev_adversity_hotels_s_roompack,roomtype_competitor,varchar,Tipo de habitación / nombre de habitación para competidor
+lake.bi_rev_adversity_hotels_s_roompack,boardtype_despegar_pp,varchar,"Tipo de mealplan ofrecido por Despegar prepaid. Este campo ya viene con los codigos boardtype_competitor_mapeo        Significado
+A        All Inclusive
+B        Desayuno
+BRA        Desayuno Americano
+BRB        Desayuno Buffet
+BRC        Desayuno Continental
+F        Pension Completa
+H        Solo alojamiento
+M        Media Pensión"
+lake.bi_rev_adversity_hotels_s_roompack,boardtype_despegar_pad,varchar,"Tipo de mealplan ofrecido por Despegar pad. Este campo ya viene con los codigos boardtype_competitor_mapeo        Significado
+A        All Inclusive
+B        Desayuno
+BRA        Desayuno Americano
+BRB        Desayuno Buffet
+BRC        Desayuno Continental
+F        Pension Completa
+H        Solo alojamiento
+M        Media Pensión"
+lake.bi_rev_adversity_hotels_s_roompack,boardtype_competitor,varchar,"Texto que dice el mealplan disponible para el pricepoint del competidor. 
+Muchas veces viene con precios (lo cual se considera no incluido). No esta mapeado"
+lake.bi_rev_adversity_hotels_s_roompack,tags_pad,varchar,"tags disponibles para la opción seleccionada ej free_cancellation|flexible_cancellation_policy
+"
+lake.bi_rev_adversity_hotels_s_roompack,tags_pp,varchar,"tags disponibles para la opción seleccionada ej free_cancellation|flexible_cancellation_policy
+"
+lake.bi_rev_adversity_hotels_s_roompack,crawling_date,date,fecha en la cual se crawleo el pricepoint en cuestión
+lake.bi_rev_adversity_hotels_s_rates,pricepoint_id,varchar,"Unique identifier representing a specific combination of: report name, domain, crawling date, hotel ID, length of stay (LOS), advance purchase (AP), and provider."
+lake.bi_rev_adversity_hotels_s_rates,crawling_date,date,Date on which the pricepoint was crawled.
+lake.bi_rev_adversity_hotels_s_rates,base_price_despegar_pp,"decimal(28,2)",Despegar's base price for prepaid (PP) payment type. Reflects the hotel's offered price plus commission and taxes.
+lake.bi_rev_adversity_hotels_s_rates,base_price_despegar_pad,"decimal(23,2)",Despegar's base price for PAD payment type. Reflects the hotel's offered price plus commission and taxes.
+lake.bi_rev_adversity_hotels_s_rates,base_price_competitor,double,"Estimated competitor base price, prior to fees and discounts."
+lake.bi_rev_adversity_hotels_s_rates,total_price_despegar_pp,"decimal(23,2)","Final price for PP payment type, including all fees and discounts applied by Despegar."
+lake.bi_rev_adversity_hotels_s_rates,total_price_despegar_pad,"decimal(22,2)","Final price for PAD payment type, including all fees and discounts applied by Despegar."
+lake.bi_rev_adversity_hotels_s_rates,total_price_competitor,"decimal(15,2)","Estimated final competitor price, including all fees and promotions. For Booking.com, includes the Booking Pays incentive."
+lake.bi_rev_adversity_hotels_s_rates,tax_despegar_pp,"decimal(10,2)",Tax amount applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,tax_despegar_pad,"decimal(10,2)",Tax amount applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,commission_tax_despegar_pp,"decimal(10,2)",Commission tax applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,commission_tax_despegar_pad,"decimal(10,2)",Commission tax applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,iof_fee_despegar_pp,"decimal(10,2)",IOF (Imposto sobre Operações Financeiras) fee applied to the PP fare. Brazilian financial operations tax charged on international transactions.
+lake.bi_rev_adversity_hotels_s_rates,iof_fee_despegar_pad,"decimal(10,2)",IOF (Imposto sobre Operações Financeiras) fee applied to the PAD fare. Brazilian financial operations tax charged on international transactions.
+lake.bi_rev_adversity_hotels_s_rates,base_fee_despegar_pp,"decimal(10,2)",Base service fee charged by Despegar for the PP payment type.
+lake.bi_rev_adversity_hotels_s_rates,resort_fee_despegar_pp,"decimal(10,2)","Mandatory resort fee charged by the hotel, reflected in the PP fare. Covers access to hotel facilities such as pool, gym, or Wi-Fi."
+lake.bi_rev_adversity_hotels_s_rates,resort_fee_despegar_pad,"decimal(10,2)","Mandatory resort fee charged by the hotel, reflected in the PAD fare."
+lake.bi_rev_adversity_hotels_s_rates,resort_fee_competitor,"decimal(10,2)",Mandatory resort fee as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,cleaning_fee_despegar_pp,"decimal(10,2)",Cleaning fee applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,cleaning_fee_despegar_pad,"decimal(10,2)",Cleaning fee applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,cleaning_fee_competitor,"decimal(10,2)",Cleaning fee as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,service_rate_despegar_pp,"decimal(10,2)",Service charge applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,service_rate_despegar_pad,"decimal(10,2)",Service charge applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,service_rate_competitor,"decimal(10,2)",Service charge as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,tourism_fee_despegar_pp,"decimal(10,2)",Tourism fee or tax applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,tourism_fee_despegar_pad,"decimal(10,2)",Tourism fee or tax applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,tourism_fee_competitor,"decimal(10,2)",Tourism fee or tax as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,city_tax_despegar_pp,"decimal(10,2)",City or municipal tax applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,city_tax_despegar_pad,"decimal(10,2)",City or municipal tax applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,city_tax_competitor,"decimal(10,2)",City or municipal tax as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,service_tax_despegar_pp,"decimal(10,2)",Service tax applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,service_tax_despegar_pad,"decimal(10,2)",Service tax applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,service_tax_competitor,"decimal(10,2)",Service tax as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,environmental_fee_despegar_pp,"decimal(10,2)",Environmental or sustainability fee applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,environmental_fee_despegar_pad,"decimal(10,2)",Environmental or sustainability fee applied to the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,environmental_fee_competitor,"decimal(10,2)",Environmental or sustainability fee as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,taxes_at_destination_despegar_pp,"decimal(10,2)","Taxes payable at the destination (e.g., at check-in or check-out) for the PP fare."
+lake.bi_rev_adversity_hotels_s_rates,taxes_at_destination_despegar_pad,"decimal(10,2)","Taxes payable at the destination (e.g., at check-in or check-out) for the PAD fare."
+lake.bi_rev_adversity_hotels_s_rates,taxes_at_destination_competitor,"decimal(10,2)",Taxes payable at destination as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,hotel_insurance_despegar_pp,"decimal(10,2)",Hotel insurance cost included in the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,hotel_insurance_despegar_pad,"decimal(10,2)",Hotel insurance cost included in the PAD fare.
+lake.bi_rev_adversity_hotels_s_rates,hotel_insurance_competitor,"decimal(10,2)",Hotel insurance cost as reported in the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,amenity_fee_despegar_pp,"decimal(10,2)","Amenity fee for access to hotel facilities or services, applied to the PP fare."
+lake.bi_rev_adversity_hotels_s_rates,amenity_fee_despegar_pad,"decimal(10,2)","Amenity fee for access to hotel facilities or services, applied to the PAD fare."
+lake.bi_rev_adversity_hotels_s_rates,commercial_discounts_despegar_pp,"decimal(10,2)",Commercial or promotional discounts applied by Despegar to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,pricematch_discount_despegar_pp,"decimal(10,2)",Price match discount applied by Despegar to the PP fare when matching a competitor's lower price.
+lake.bi_rev_adversity_hotels_s_rates,sa_discount_despegar_pp,"decimal(10,2)",Smart Alerts (SA) discount applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,uf_discount_despegar_pp,"decimal(10,2)",User First (UF) loyalty discount applied to the PP fare.
+lake.bi_rev_adversity_hotels_s_rates,booking_pays,"decimal(10,2)","Amount subsidized by Booking.com to lower the displayed price, included in the competitor's total price."
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_1,varchar,Name of the 1st discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_1,double,Monetary amount of the 1st Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_2,varchar,Name of the 2nd discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_2,double,Monetary amount of the 2nd Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_3,varchar,Name of the 3rd discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_3,double,Monetary amount of the 3rd Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_4,varchar,Name of the 4th discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_4,double,Monetary amount of the 4th Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_5,varchar,Name of the 5th discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_5,double,Monetary amount of the 5th Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,discount_name_bkg_6,varchar,Name of the 6th discount applied by Booking.com to the competitor's price.
+lake.bi_rev_adversity_hotels_s_rates,discount_amount_bkg_6,double,Monetary amount of the 6th Booking.com discount.
+lake.bi_rev_adversity_hotels_s_rates,price_before_promotion_despegar,"decimal(10,2)",Despegar's price before any promotional discount is applied.
+lake.bi_rev_adversity_hotels_s_rates,price_before_promotion_competitor,"decimal(10,2)",Competitor's price before any promotional discount is applied.
+lake.bi_rev_adversity_hotels_h,pricepoint_id,varchar,"Unique identifier representing a specific combination of: report name, domain, crawling date, hotel ID, length of stay (LOS), advance purchase (AP), and provider."
+lake.bi_rev_adversity_hotels_h,fk_hsm,varchar,"Unique identifier representing a specific combination of: report name, domain, crawling date, hotel ID, length of stay (LOS), advance purchase (AP). Casi igual que pricepoint_id, solo excluye el proveedor para poder joinear 1:N con las tablas de HSM"
+lake.bi_rev_adversity_hotels_h,name_report,varchar,"nombre del reporte, incluye competitor y contexto, es la concatenación de esas columnas"
+lake.bi_rev_adversity_hotels_h,competitor,varchar,"competidor que se crawleo (booking, price travel, tiquetes baratos, etc)"
+lake.bi_rev_adversity_hotels_h,context,varchar,"El contexto define bajo qué condición de acceso o login se ejecuta el crawling competitivo.
+
+Ejemplos:
+- Public
+- Genius 1
+- Genius 2
+- Genius 3"
+lake.bi_rev_adversity_hotels_h,domain,varchar,"mercado desde el cual se realiza el crawleo (AR, BR, MX, CL, PE)"
+lake.bi_rev_adversity_hotels_h,travel_type,varchar,si el vuelo es NAC o INT. Si domain y country (pais destino) coinciden
+lake.bi_rev_adversity_hotels_h,source_feed,varchar,"El feed representa el conjunto de pricepoints enviados a medición.
+
+El feed define:
+- universo competitivo
+- cobertura de hoteles
+- escenarios de compra
+- alcance operativo de la medición. Puede ser Revenue, TTPP, etc"
+lake.bi_rev_adversity_hotels_h,pp_is_okr,integer,Campo booleano que identifica si el pricepoint forma parte del universo oficial definido como relevante para el KPI corporativo.
+lake.bi_rev_adversity_hotels_h,crawling_date,date,fecha en la cual se crawleo el pricepoint en cuestión
+lake.bi_rev_adversity_hotels_h,report_date_time_despegar,timestamp(6) with time zone,timestamp en la cual se crawleo la API de Despegar
+lake.bi_rev_adversity_hotels_h,report_date_time_competitor,timestamp(6) with time zone,timestamp en la cual se crawleo la web del competidor
+lake.bi_rev_adversity_hotels_h,week_year,varchar,"concatenación de year y week_of_year del crawl date , del tipo 2024-38"
+lake.bi_rev_adversity_hotels_h,year,integer,año del crawleo
+lake.bi_rev_adversity_hotels_h,month,integer,mes del crawleo
+lake.bi_rev_adversity_hotels_h,report_day_of_week,varchar,"dia de la semana, escrito como Tuesday, Sunday, etc"
+lake.bi_rev_adversity_hotels_h,hotel_despegar_id,varchar,id del hotel dentro de las fichas hoteleras de despegar
+lake.bi_rev_adversity_hotels_h,hotel_despegar_name,varchar,nombre normalizado del hotel dentro de las fichas hoteleras de despegar
+lake.bi_rev_adversity_hotels_h,hotel_competitor_id,varchar,id del hotel dentro de las fichas hoteleras de competidor
+lake.bi_rev_adversity_hotels_h,hotel_competitor_name,varchar,nombre normalizado del hotel dentro de las fichas hoteleras de competidor
+lake.bi_rev_adversity_hotels_h,country_code,varchar,codigo iata pais
+lake.bi_rev_adversity_hotels_h,country,varchar,pais escrito con minusculas
+lake.bi_rev_adversity_hotels_h,city_code,varchar,City code (aka CodigoCiudad)
+lake.bi_rev_adversity_hotels_h,city,varchar,"ciudad, escrito con minusculas"
+lake.bi_rev_adversity_hotels_h,advance,integer,dias de anterioridad con la cual se realiza la búsqueda respecto a crawl date
+lake.bi_rev_adversity_hotels_h,los,integer,cantidad de días lenght of stay. sería fecha crawleo + advance
+lake.bi_rev_adversity_hotels_h,check_in,date,se obtiene a partir de advence+ crawl date
+lake.bi_rev_adversity_hotels_h,check_out,date,se obtiene a partir de check in + los
+lake.bi_rev_adversity_hotels_h,url_despegar,varchar,screenshot recreado y almacenado en s3. esta disponible 3 meses
+lake.bi_rev_adversity_hotels_h,url_competitor,varchar,screenshot recreado y almacenado en s3. esta disponible 3 meses
+lake.bi_rev_adversity_hotels_h,provider_despegar,varchar,"proveedor que gano dentro de la competencia interna de tarifas de despegar, puede ser DESP, HBG,EXP,etc"
+lake.bi_rev_adversity_hotels_h,availability,varchar,"define si ambos despegar y competidor tenían disponibilidad para el pricepoint buscado. puede ser Despegar
+Both
+None
+Competitor"
+lake.bi_rev_adversity_hotels_h,currency,varchar,moneda usada
+lake.bi_rev_adversity_hotels_h,partner_offer,varchar,Si la oferta de Booking ofrece partner Offer ( es una promoción agresiva de Booking)
+lake.bi_rev_adversity_hotels_h,payment_type_despegar,varchar,si es prepaid o paid at destination
+lake.bi_rev_adversity_hotels_h,base_price_despegar_min,"decimal(28,2)",valor minimo entre base_price_despegar_pad y base_price_despegar_pp
+lake.bi_rev_adversity_hotels_h,base_price_competitor,double,"Estimated competitor base price, prior to fees and discounts."
+lake.bi_rev_adversity_hotels_h,base_price_variation,double,"variación porcentual calculada como ,CASE 
+     WHEN avail_despegar = 'Availability.AVAILABLE' 
+     AND avail_competitor = 'Availability.AVAILABLE'
+     AND base_price_competitor > 0
+     THEN (base_price_despegar_min - base_price_competitor) / base_price_competitor
+    ELSE NULL
+END AS base_price_variation"
+lake.bi_rev_adversity_hotels_h,basebml,varchar,"Para tarifa base(base_price) BML significa:
+- BEAT
+- MEET
+- LOSE
+
+Es la clasificación utilizada para determinar competitividad tarifaria frente a competidores."
+lake.bi_rev_adversity_hotels_h,total_price_despegar_min,"decimal(25,4)",valor minimo entre total_price_despegar_pad y total_price_despegar_pp
+lake.bi_rev_adversity_hotels_h,total_price_competitor,"decimal(15,2)","Estimated final competitor price, including all fees and promotions. For Booking.com, includes the Booking Pays incentive."
+lake.bi_rev_adversity_hotels_h,total_price_variation,"decimal(38,14)","variacion porcentual, calculada de forma analoga al base_price"
+lake.bi_rev_adversity_hotels_h,finalbml,varchar,"Para tarifa final (total_price) BML significa:
+- BEAT
+- MEET
+- LOSE
+
+Es la clasificación utilizada para determinar competitividad tarifaria frente a competidores."
+lake.bi_rev_adversity_hotels_h,weight,"decimal(29,8)","valor numérico que representa la importancia relativa de un pricepoint dentro del mercado.
+
+La construcción del ponderador considera:
+- representatividad de GB propio
+- relevancia inferida de Booking
+
+La relevancia de Booking se infiere utilizando señales basadas en reviews hoteleras."
+lake.bi_rev_adversity_hotels_h,chain,varchar,"Nombre de la cadena hotelera a la que pertenece el alojamiento. Una cadena agrupa múltiples propiedades bajo una misma marca comercial, operando con estándares de servicio y calidad comunes. Ejemplos de cadenas incluyen Hilton y Riu Hotels and Resorts. Fue"
+lake.bi_rev_adversity_hotels_h,area,varchar,area de gestion
+lake.bi_rev_adversity_hotels_h,market,varchar,mercado de gestion
+lake.bi_rev_adversity_hotels_h,ops_team,varchar,equipo de operaciones asignado
+lake.bi_rev_adversity_hotels_h,account_type,varchar,tipo de cuenta de gestion
+lake.bi_rev_adversity_hotels_h,aacc,varchar,asesor comercial del alojamiento
+lake.bi_rev_adversity_hotels_h,eecc,varchar,ejecutivo comercial del alojamiento
+lake.bi_rev_adversity_hotels_h,preferred_program_competitor,varchar,trae si el hotel esta o no dentro del programa de preferentes de booking

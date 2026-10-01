@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Impact on P&L — Revenue Team</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-2: #22263a;
+    --border: #2e3350;
+    --text-primary: #e8eaf2;
+    --text-secondary: #8b91b5;
+    --text-muted: #555c7a;
+    --accent: #4f7dff;
+    --accent-dim: rgba(79,125,255,0.12);
+    --green: #3ecf8e;
+    --green-dim: rgba(62,207,142,0.10);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.10);
+    --red: #e05a5a;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .slide {
+    display: none;
+    min-height: 100vh;
+    padding: 48px 64px;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 10px 20px;
+    z-index: 100;
+  }
+  .nav button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav button:hover { color: var(--text-primary); background: var(--surface-2); }
+  .nav button:disabled { color: var(--text-muted); cursor: default; background: none; }
+  .nav .counter {
+    font-size: 13px;
+    color: var(--text-muted);
+    min-width: 50px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s, width 0.2s;
+    cursor: pointer;
+  }
+  .dot.active {
+    background: var(--accent);
+    width: 20px;
+    border-radius: 3px;
+  }
+
+  /* SLIDE 1 — TITLE */
+  .title-slide .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .title-slide h1 {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .title-slide h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .title-slide .subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 520px;
+  }
+  .title-slide .meta {
+    margin-top: 48px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* SLIDE 2 — REFRAME */
+  .reframe-slide .label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .label-wrong { background: rgba(224,90,90,0.12); color: var(--red); }
+  .label-right { background: var(--green-dim); color: var(--green); }
+
+  .reframe-card {
+    padding: 28px 32px;
+    border-radius: var(--radius);
+    border: 1px solid;
+    margin-bottom: 20px;
+  }
+  .reframe-card.wrong {
+    background: rgba(224,90,90,0.05);
+    border-color: rgba(224,90,90,0.2);
+  }
+  .reframe-card.right {
+    background: var(--green-dim);
+    border-color: rgba(62,207,142,0.25);
+  }
+  .reframe-card p {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .reframe-card.wrong p { color: var(--text-secondary); text-decoration: line-through; text-decoration-color: var(--red); }
+  .reframe-card.right p { color: var(--text-primary); }
+
+  /* SLIDE 3-5 — ARGUMENT */
+  .arg-slide .slide-num {
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+  }
+  .arg-slide h2 {
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .arg-slide .tagline {
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+  .arg-slide p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 16px;
+  }
+  .arg-slide p strong { color: var(--text-primary); font-weight: 600; }
+
+  .example-box {
+    margin-top: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 680px;
+  }
+  .example-box .icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .example-box .text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .example-box .text strong { color: var(--text-primary); display: block; margin-bottom: 4px; font-size: 15px; }
+
+  /* SLIDE 6 — FORMULA */
+  .formula-slide h2 {
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .formula-slide .intro {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+    max-width: 600px;
+  }
+  .formula-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+  .formula-block .formula {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 15px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .formula-block .note {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .formula-block .note strong { color: var(--text-secondary); }
+
+  /* SLIDE 7 — SUMMARY */
+  .summary-slide h2 {
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+  }
+
+  .arg-list { list-style: none; max-width: 700px; }
+  .arg-list li {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .arg-list li:last-child { border-bottom: none; }
+  .arg-list .num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 3px 8px;
+    background: var(--accent-dim);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .arg-list .content strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .arg-list .content span {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* SLIDE 8 — CLOSE */
+  .close-slide .quote-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    max-width: 740px;
+    margin-bottom: 32px;
+  }
+  .close-slide .quote-card p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+  .close-slide .quote-card p em {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .close-slide .footer-note {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* PROGRESS BAR */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 200;
+  }
+
+  h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+
+  @media (max-width: 700px) {
+    .slide { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide title-slide active" id="slide-1">
+  <div class="eyebrow">Revenue Team · Internal Discussion</div>
+  <h1>AI doesn't just make us<br>faster. It changes<br><em>what we can do.</em></h1>
+  <p class="subtitle">How AI projects impact P&amp;L — beyond the efficiency argument.</p>
+  <p class="meta">Tipificador &nbsp;·&nbsp; NCS &nbsp;·&nbsp; Crawlers &nbsp;·&nbsp; Second Brain</p>
+</div>
+
+<!-- SLIDE 2: REFRAME -->
+<div class="slide reframe-slide" id="slide-2">
+  <h2 style="font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-0.02em;margin-bottom:32px;">The argument that doesn't work</h2>
+
+  <div class="label label-wrong">Wrong frame</div>
+  <div class="reframe-card wrong">
+    <p>"We do the same things faster."</p>
+  </div>
+
+  <p style="font-size:14px;color:var(--text-muted);margin:4px 0 28px 0;">This is efficiency. Your manager already assumes it. It doesn't move the P&amp;L conversation.</p>
+
+  <div class="label label-right">Right frame</div>
+  <div class="reframe-card right">
+    <p>"We do things that were previously impossible — and that has direct margin impact."</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: ARG 1 -->
+<div class="slide arg-slide" id="slide-3">
+  <div class="slide-num">01</div>
+  <h2>Full coverage → decisions<br>on facts, not samples</h2>
+  <p class="tagline">Scale that was operationally impossible before</p>
+  <p>Without AI, the team analyzes samples. With AI, the team analyzes <strong>the full universe</strong> of pricepoints, every Tuesday, automatically.</p>
+  <p>That means decisions about provider negotiations, SINAI rules, and hotel prioritization are made on complete data — not on representative subsets that may miss tail cases.</p>
+
+  <div class="example-box">
+    <div class="icon">🎯</div>
+    <div class="text">
+      <strong>Tipificador</strong>
+      Classifying root cause for every single pricepoint was operationally impossible before. Now Sourcing knows exactly which providers are losing on which hotels and why — turning a broad negotiation into a targeted one. The delta has direct margin impact.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: ARG 2 -->
+<div class="slide arg-slide" id="slide-4">
+  <div class="slide-num">02</div>
+  <h2>Detection speed →<br>less time bleeding</h2>
+  <p class="tagline">Time-to-action on pricing problems has financial value</p>
+  <p>The gap between <strong>"there is a competitiveness problem"</strong> and <strong>"we understand the root cause and act"</strong> is where revenue is lost.</p>
+  <p>If a SINAI rule is misconfigured, every day it goes undetected means pricepoints losing unnecessarily. Faster detection → faster correction → less margin erosion.</p>
+
+  <div class="example-box">
+    <div class="icon">📡</div>
+    <div class="text">
+      <strong>Crawlers + Adversity Analysis</strong>
+      These projects compress the detection-to-action gap. That compression is not just an operational improvement — it has a direct, quantifiable revenue effect proportional to the volume of affected pricepoints.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: ARG 3 -->
+<div class="slide arg-slide" id="slide-5">
+  <div class="slide-num">03</div>
+  <h2>New capabilities that<br>didn't exist before</h2>
+  <p class="tagline">Not acceleration — creation of entirely new levers</p>
+  <p>Some projects don't speed up existing work. They create work that <strong>was never possible</strong>.</p>
+  <p>These new capabilities unlock commercial levers — provider negotiations, hotel prioritization, rule optimization — that were previously blind. Blind not because of lack of effort, but because of scale.</p>
+
+  <div class="example-box">
+    <div class="icon">🧠</div>
+    <div class="text">
+      <strong>Second Brain &nbsp;·&nbsp; NCS Analysis &nbsp;·&nbsp; Tipificador</strong>
+      None of these existed before. Each one opens a decision surface that previously required either a dedicated team or didn't happen. That's not efficiency — that's new P&amp;L surface.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: FORMULA -->
+<div class="slide formula-slide" id="slide-6">
+  <h2>How to quantify it</h2>
+  <p class="intro">You don't need the exact number in the room. You need to show the path exists and every component is measurable with data you already have.</p>
+
+  <div class="formula-block">
+    <div class="formula">Δ adversity × search volume × conversion rate × average ticket = revenue impact</div>
+    <div class="note">
+      <strong>Δ adversity</strong> is the improvement driven by better decisions made possible by AI analysis.<br>
+      Every 0.1pp reduction in adversity, at Despegar's search volume, is a measurable revenue delta.
+    </div>
+  </div>
+
+  <div class="formula-block">
+    <div class="formula">Δ time-to-action × affected pricepoints × weight × daily volume = bleed avoided</div>
+    <div class="note">
+      <strong>Δ time-to-action</strong> is the days saved between detecting and correcting a pricing issue.<br>
+      Quantifiable directly from incident history and pricepoint data.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: SUMMARY -->
+<div class="slide summary-slide" id="slide-7">
+  <h2>The three P&amp;L arguments</h2>
+  <ul class="arg-list">
+    <li>
+      <span class="num">01</span>
+      <div class="content">
+        <strong>Full coverage</strong>
+        <span>Decisions on every pricepoint — not on samples. Enables targeted negotiations and rule corrections with complete information.</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">02</span>
+      <div class="content">
+        <strong>Detection speed</strong>
+        <span>Compressed gap between problem and action. Every day saved is quantifiable revenue from pricepoints that stop losing unnecessarily.</span>
+      </div>
+    </li>
+    <li>
+      <span class="num">03</span>
+      <div class="content">
+        <strong>New capabilities</strong>
+        <span>Tipificador, NCS analysis, second brain — none existed before. Each unlocks a commercial lever that was previously blind or inaccessible at scale.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- SLIDE 8: CLOSE -->
+<div class="slide close-slide" id="slide-8">
+  <h2 style="font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.02em;margin-bottom:28px;">The one-liner for your manager</h2>
+
+  <div class="quote-card">
+    <p>"AI doesn't just make us faster — it gives us access to analysis that was previously impossible at scale. That means pricing, negotiation, and SINAI rule decisions are made on <em>complete facts</em> instead of samples. In a business where each point of adversity has direct margin impact, that's P&amp;L, not efficiency."</p>
+  </div>
+
+  <p class="footer-note">
+    The efficiency argument is table stakes. The P&amp;L argument is that AI expands the decision surface — and every expanded decision surface in Revenue has a price tag attached to it.
+  </p>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button id="prev" onclick="go(-1)" disabled>←</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" onclick="go(1)">→</button>
+</div>
+
+<script>
+  const total = 8;
+  let current = 1;
+
+  const dotsEl = document.getElementById('dots');
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    dotsEl.children[current - 1].classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    dotsEl.children[current - 1].classList.add('active');
+    document.getElementById('prev').disabled = current === 1;
+    document.getElementById('next').disabled = current === total;
+    document.getElementById('progress').style.width = ((current / total) * 100) + '%';
+  }
+
+  function go(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+
+  document.getElementById('progress').style.width = ((1 / total) * 100) + '%';
+</script>
+</body>
+</html>

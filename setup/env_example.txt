@@ -1,0 +1,7 @@
+# Ejemplo de variables de entorno
+# Copia este contenido a un archivo local `.env` solo si tu proyecto lo necesita.
+
+PYTHONIOENCODING=utf-8
+OPENAI_API_KEY=[completar_si_aplica]
+METABASE_BASE_URL=[completar_si_aplica]
+METABASE_SESSION_ID=[completar_si_aplica]
